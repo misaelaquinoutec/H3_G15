@@ -1,11 +1,11 @@
 {
-  "teamCode": "TEAM-000",
-  "teamName": "Nombre de la cuadrilla",
+  "teamCode": "TEAM-047",
+  "teamName": "Cuadrilla G15",
   "deployUrl": "https://",
-  "storageProvider": "SUPABASE | CLOUDINARY",
+  "storageProvider": "SUPABASE",
   "integrantes": [
-    { "nombre": "Nombre Apellido", "codigo": "CODIGO UTEC" },
-    { "nombre": "Nombre Apellido", "codigo": "CODIGO UTEC" },
-    { "nombre": "Nombre Apellido", "codigo": "CODIGO UTEC" }
+    { "nombre": "Misael Aquino", "codigo": "202510626" },
+    { "nombre": "Enzo Calderon", "codigo": "202510032" },
+    { "nombre": "Enzo Calderon", "codigo": "202510000" }
   ]
 }
