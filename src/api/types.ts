@@ -64,27 +64,25 @@ export interface AuthResponse {
 }
 
 export interface FileProgress {
-  total: number
-  refined: number
-  percentage: number
-  bins: {
-    WO: number
-    FC: number
-    DR: number
-    MA: number
-  }
+  WO: number
+  FC: number
+  DR: number
+  MA: number
+  overall: number
 }
 
 export interface FileSummary {
   id: number
   name: string
-  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'
+  status: 'PENDING' | 'IN_PROGRESS' | 'ACTIVE' | 'COMPLETED'
   rows: number
   cols: number
   tileSize: number
   progress: FileProgress
+  refinedGroups?: number
+  totalGroups?: number
   mistakes: number
-  createdAt: string
+  createdAt?: string
   updatedAt: string
 }
 
