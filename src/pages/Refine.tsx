@@ -28,6 +28,7 @@ export const Refine: React.FC = () => {
 
   // Tiles cache: key `${tileRow},${tileCol}` -> TileData
   const [tiles, setTiles] = useState<Map<string, TileData>>(new Map())
+  const loadedTilesRef = useRef<Map<string, TileData>>(new Map())
   const inFlightTiles = useRef<Set<string>>(new Set())
   const tileAbortControllers = useRef<Map<string, AbortController>>(new Map())
   const rateLimitUntil = useRef<number>(0)
@@ -123,11 +124,11 @@ export const Refine: React.FC = () => {
     window.history.replaceState(null, '', newUrl.toString())
   }, [viewportHeight, viewportWidth])
 
-  // 6. Fetch tiles required for current visible window
+  // 6. Fetch tiles required for current visible window without duplicate requests
   const requestTile = useCallback(
     async (tr: number, tc: number) => {
       const key = `${tr},${tc}`
-      if (tiles.has(key) || inFlightTiles.current.has(key)) return
+      if (loadedTilesRef.current.has(key) || inFlightTiles.current.has(key)) return
       if (Date.now() < rateLimitUntil.current) return // Respect 429 Retry-After
 
       inFlightTiles.current.add(key)
@@ -136,6 +137,7 @@ export const Refine: React.FC = () => {
 
       try {
         const tileData = await getTile(fileId, tr, tc, controller.signal)
+        loadedTilesRef.current.set(key, tileData)
         setTiles((prev) => new Map(prev).set(key, tileData))
       } catch (err: any) {
         if (err instanceof LumonApiError && err.statusCode === 429 && err.retryAfter) {
@@ -146,7 +148,7 @@ export const Refine: React.FC = () => {
         tileAbortControllers.current.delete(key)
       }
     },
-    [fileId, tiles]
+    [fileId]
   )
 
   useEffect(() => {
@@ -171,8 +173,7 @@ export const Refine: React.FC = () => {
     tileAbortControllers.current.forEach((controller, key) => {
       if (!visibleTileKeys.has(key)) {
         controller.abort()
-        inFlightTiles.current.delete(key)
-        tileAbortControllers.current.delete(key)
+        // Do NOT delete from inFlightTiles here; finally block handles clean settlement
       }
     })
   }, [file, visibleStartRow, visibleEndRow, visibleStartCol, visibleEndCol, requestTile])
@@ -292,9 +293,11 @@ export const Refine: React.FC = () => {
             selectedGroup.forEach((c) => {
               const tr = Math.floor(c.r / file.tileSize)
               const tc = Math.floor(c.c / file.tileSize)
+              const k = `${tr},${tc}`
+              loadedTilesRef.current.delete(k)
               setTiles((prev) => {
                 const copy = new Map(prev)
-                copy.delete(`${tr},${tc}`)
+                copy.delete(k)
                 return copy
               })
               requestTile(tr, tc)
