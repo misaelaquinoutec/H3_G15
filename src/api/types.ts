@@ -160,9 +160,11 @@ export interface IntegrationStatus {
 
 export interface ClearanceCheckResult {
   granted: boolean
+  grantedAt?: string | null
   checks: {
     name: string
     passed: boolean
+    detail?: string
     reason?: string
   }[]
 }

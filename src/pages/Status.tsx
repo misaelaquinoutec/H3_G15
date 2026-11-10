@@ -236,7 +236,9 @@ export const Status: React.FC = () => {
                     <span>{check.name}</span>
                     <span>{check.passed ? '✓ PASÓ' : '✗ FALLÓ'}</span>
                   </div>
-                  {check.reason && <p className="mt-1 text-[11px] text-slate-400">{check.reason}</p>}
+                  {(check.detail || check.reason) && (
+                    <p className="mt-1 text-[11px] text-slate-400">{check.detail || check.reason}</p>
+                  )}
                 </div>
               ))}
             </div>
