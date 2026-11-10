@@ -8,6 +8,7 @@ export const Layout: React.FC = () => {
   const { user, authMe, logout, revocationReason, clearRevocationReason, hasPermission } =
     useAuth()
   const location = useLocation()
+  const isRefinePage = location.pathname.includes('/refine')
 
   const navItems = [
     { name: 'Archivos (MDR)', path: '/files', permission: 'files:read' },
@@ -17,7 +18,11 @@ export const Layout: React.FC = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div
+      className={`min-h-screen ${
+        isRefinePage ? 'h-screen overflow-hidden' : ''
+      } bg-slate-950 text-slate-100 flex flex-col font-sans`}
+    >
       <ConnectingScreen />
 
       {/* Revocation notification */}
@@ -37,7 +42,7 @@ export const Layout: React.FC = () => {
       )}
 
       {/* Main Lumon Header */}
-      <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
+      <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <Link to="/files" className="flex items-center space-x-3 group">
@@ -125,14 +130,16 @@ export const Layout: React.FC = () => {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
         <Outlet />
       </main>
 
-      {/* Lumon Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-3 px-4 text-center text-[10px] text-slate-400 font-mono">
-        <span>Lumon Industries &copy; 2026 · El trabajo es misterioso e importante</span>
-      </footer>
+      {/* Lumon Footer - hidden on refine page */}
+      {!isRefinePage && (
+        <footer className="border-t border-slate-900 bg-slate-950 py-3 px-4 text-center text-[10px] text-slate-400 font-mono shrink-0">
+          <span>Lumon Industries &copy; 2026 · El trabajo es misterioso e importante</span>
+        </footer>
+      )}
     </div>
   )
 }

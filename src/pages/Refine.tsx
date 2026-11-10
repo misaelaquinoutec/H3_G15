@@ -568,7 +568,7 @@ export const Refine: React.FC = () => {
       </div>
 
       {/* Main Grid Viewport */}
-      <div className="flex-1 relative overflow-hidden flex flex-col">
+      <div className="flex-1 relative overflow-hidden flex flex-col min-h-0">
         {/* Scrollable virtual canvas */}
         <div
           ref={containerRef}
@@ -576,7 +576,7 @@ export const Refine: React.FC = () => {
           tabIndex={0}
           role="grid"
           aria-label="Grilla de refinamiento macrodata"
-          className="flex-1 overflow-auto outline-none relative bg-slate-950"
+          className="flex-1 overflow-auto outline-none relative bg-slate-950 min-h-0"
         >
           <div
             style={{
