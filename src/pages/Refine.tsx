@@ -524,7 +524,8 @@ export const Refine: React.FC = () => {
     }
   }
 
-  const isCompleted = file.progress.overall >= 100
+  const isCompleted =
+    (file.progress?.overall ?? (file.progress as any)?.percentage ?? 0) >= 100
 
   return (
     <div className="flex-1 flex flex-col h-[calc(100vh-4rem)] overflow-hidden bg-slate-950 font-mono">
@@ -544,14 +545,24 @@ export const Refine: React.FC = () => {
         <div className="flex items-center space-x-6 text-xs">
           <div className="flex items-center space-x-2">
             <span className="text-slate-400">Total:</span>
-            <span className="text-emerald-400 font-bold">{file.progress.overall.toFixed(1)}%</span>
+            <span className="text-emerald-400 font-bold">
+              {(file.progress?.overall ?? (file.progress as any)?.percentage ?? 0).toFixed(1)}%
+            </span>
           </div>
 
           <div className="flex space-x-3 text-[11px]">
-            <span className="text-blue-400">WO: {file.progress.WO}</span>
-            <span className="text-emerald-400">FC: {file.progress.FC}</span>
-            <span className="text-amber-400">DR: {file.progress.DR}</span>
-            <span className="text-red-400">MA: {file.progress.MA}</span>
+            <span className="text-blue-400">
+              WO: {file.progress?.WO ?? (file.progress as any)?.bins?.WO ?? 0}
+            </span>
+            <span className="text-emerald-400">
+              FC: {file.progress?.FC ?? (file.progress as any)?.bins?.FC ?? 0}
+            </span>
+            <span className="text-amber-400">
+              DR: {file.progress?.DR ?? (file.progress as any)?.bins?.DR ?? 0}
+            </span>
+            <span className="text-red-400">
+              MA: {file.progress?.MA ?? (file.progress as any)?.bins?.MA ?? 0}
+            </span>
           </div>
         </div>
       </div>

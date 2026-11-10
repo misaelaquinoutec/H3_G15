@@ -243,13 +243,18 @@ export const Files: React.FC = () => {
                   <div className="flex justify-between text-xs font-mono mb-1">
                     <span className="text-slate-400">Progreso total:</span>
                     <span className="font-bold text-emerald-400">
-                      {file.progress.overall.toFixed(1)}%
+                      {(file.progress?.overall ?? (file.progress as any)?.percentage ?? 0).toFixed(1)}%
                     </span>
                   </div>
                   <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
                     <div
                       className="bg-emerald-500 h-full transition-all duration-300"
-                      style={{ width: `${Math.min(100, file.progress.overall)}%` }}
+                      style={{
+                        width: `${Math.min(
+                          100,
+                          file.progress?.overall ?? (file.progress as any)?.percentage ?? 0
+                        )}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -258,19 +263,27 @@ export const Files: React.FC = () => {
                 <div className="grid grid-cols-4 gap-2 text-center text-[10px] font-mono mb-4 bg-slate-950 p-2 rounded-lg border border-slate-800/80">
                   <div className="flex flex-col">
                     <span className="text-blue-400 font-bold">WO</span>
-                    <span className="text-slate-300">{file.progress.WO}</span>
+                    <span className="text-slate-300">
+                      {file.progress?.WO ?? (file.progress as any)?.bins?.WO ?? 0}
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-emerald-400 font-bold">FC</span>
-                    <span className="text-slate-300">{file.progress.FC}</span>
+                    <span className="text-slate-300">
+                      {file.progress?.FC ?? (file.progress as any)?.bins?.FC ?? 0}
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-amber-400 font-bold">DR</span>
-                    <span className="text-slate-300">{file.progress.DR}</span>
+                    <span className="text-slate-300">
+                      {file.progress?.DR ?? (file.progress as any)?.bins?.DR ?? 0}
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-red-400 font-bold">MA</span>
-                    <span className="text-slate-300">{file.progress.MA}</span>
+                    <span className="text-slate-300">
+                      {file.progress?.MA ?? (file.progress as any)?.bins?.MA ?? 0}
+                    </span>
                   </div>
                 </div>
               </div>
