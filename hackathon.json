@@ -1,7 +1,7 @@
 {
   "teamCode": "TEAM-047",
   "teamName": "Cuadrilla G15",
-  "deployUrl": "https://",
+  "deployUrl": "https://h3-g15.vercel.app",
   "storageProvider": "SUPABASE",
   "integrantes": [
     { "nombre": "Misael Aquino", "codigo": "202510626" },
