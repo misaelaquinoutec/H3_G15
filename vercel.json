@@ -1,0 +1,40 @@
+{
+  "rewrites": [
+    {
+      "source": "/.well-known/lumon-verification.txt",
+      "destination": "/.well-known/lumon-verification.txt"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://lumon-api.vercel.app wss://lumon-api.vercel.app https://*.supabase.co https://res.cloudinary.com https://api.cloudinary.com; media-src 'self' blob: https:; object-src 'none'; frame-ancestors 'none';"
+        }
+      ]
+    },
+    {
+      "source": "/.well-known/lumon-verification.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
+    }
+  ]
+}
